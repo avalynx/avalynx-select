@@ -1,0 +1,50 @@
+{
+  "name": "avalynx-select",
+  "title": "AvalynxSelect",
+  "description": "AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/js/avalynx-select.js",
+  "module": "dist/js/avalynx-select.esm.js",
+  "files": [
+    "dist/js/avalynx-select.js",
+    "dist/js/avalynx-select.esm.js"
+  ],
+  "keywords": [
+    "avalynx",
+    "select",
+    "dropdown",
+    "bootstrap",
+    "bootstrap5",
+    "livesearch",
+    "component"
+  ],
+  "ignore": [
+    "package.json"
+  ],
+  "author": {
+    "name": "Juergen Schwind an the Avalynx-Select Authors",
+    "url": "https://github.com/avalynx/avalynx-select/graphs/contributors"
+  },
+  "homepage": "https://github.com/avalynx/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avalynx/avalynx-select.git"
+  },
+  "bugs": {
+    "url": "https://github.com/avalynx/avalynx-select/issues"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "bootstrap": ">=5.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7",
+    "@babel/preset-env": "^7",
+    "babel-jest": "^29",
+    "jest": "^29",
+    "jest-environment-jsdom": "^29"
+  }
+}

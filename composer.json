@@ -1,0 +1,30 @@
+{
+    "name": "avalynx/avalynx-select",
+    "description": "AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.",
+    "keywords": [
+        "avalynx",
+        "select",
+        "dropdown",
+        "bootstrap",
+        "bootstrap5",
+        "livesearch",
+        "component"
+    ],
+    "homepage": "https://github.com/avalynx/avalynx-select",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Juergen Schwind an the AvalynxSelect authors",
+            "homepage": "https://github.com/avalynx/avalynx-select/graphs/contributors"
+        }
+    ],
+    "require": {
+        "twbs/bootstrap": "^5.3"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/avalynx/avalynx-select.git"
+        }
+    ]
+}
