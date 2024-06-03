@@ -83,7 +83,7 @@ export class AvalynxSelect {
     }
 
     ensureTemplatesExist() {
-        this.addTemplateIfMissing("avalynx-select", `
+        this.addTemplateIfMissing("avalynx-select-template", `
                 <button class="form-select text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                 <ul class="dropdown-menu rounded-0 me-1 avalynx-select">
                     <li class="avalynx-select-livesearch pb-2">
@@ -104,7 +104,7 @@ export class AvalynxSelect {
     }
 
     createDropdownElements(select) {
-        const template = document.getElementById("avalynx-select").content.cloneNode(true);
+        const template = document.getElementById("avalynx-select-template").content.cloneNode(true);
         const button = template.querySelector('button');
         button.id = `${select.id}-button`;
         button.textContent = select.value && select.value !== '' ? select.options[select.selectedIndex].textContent : this.language.selectPlaceholder;
