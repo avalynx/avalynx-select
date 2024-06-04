@@ -12,6 +12,7 @@
  *
  * @param {string} selector - The selector to use for targeting tables within the DOM (default: '.avalynx-select').
  * @param {object} options - An object containing the following keys:
+ * @param {string} options.className - A custom export class name for the loader element (default: '').
  * @param {boolean} options.liveSearch - Enable live search functionality (default: false).
  * @param {boolean} options.caseSensitive - Enable case-sensitive search (default: false).
  * @param {boolean} options.showAll - Show all options when search term is empty (default: true).
@@ -23,8 +24,6 @@
  * @param {string} language.selectPlaceholder - Placeholder text for the select dropdown (default: 'Please select...').
  *
  */
-
-import * as bootstrap from 'bootstrap';
 
 export class AvalynxSelect {
     constructor(selector, options = {}, language = {}) {
