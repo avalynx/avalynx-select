@@ -18,7 +18,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         return;
     }
 
-    const result = data.replace(/class /g, 'export class ');
+    const result = data.replace(/class /g, 'import * as bootstrap from \'bootstrap\';\n\nexport class ');
 
     fs.writeFile(filePath, result, 'utf8', err => {
         if (err) {
