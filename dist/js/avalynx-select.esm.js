@@ -109,7 +109,7 @@ export class AvalynxSelect {
     createDropdownElements(select) {
         const template = document.getElementById("avalynx-select-template").content.cloneNode(true);
         const button = template.querySelector('button');
-        button.id = `${select.id}-button`;
+        button.id = `${select.id}`;
         button.textContent = select.value && select.value !== '' ? select.options[select.selectedIndex].textContent : this.language.selectPlaceholder;
         button.setAttribute('aria-labelledby', button.id);
         if (this.options.className) {
@@ -129,6 +129,7 @@ export class AvalynxSelect {
             itemsContainer.appendChild(listItem);
         });
         select.style.display = 'none';
+        select.id = `${select.id}-original`;
         select.parentNode.insertBefore(button, select.nextSibling);
         select.parentNode.insertBefore(dropdown, button.nextSibling);
         const searchInput = dropdown.querySelector('.avalynx-select-input');
@@ -137,7 +138,7 @@ export class AvalynxSelect {
             const liveSearchElement = dropdown.querySelector('.avalynx-select-livesearch');
             liveSearchElement.style.display = 'none';
         }
-        return { button, dropdown };
+        return {button, dropdown};
     }
 
     applyScrollSettings(dropdown) {
@@ -163,7 +164,10 @@ export class AvalynxSelect {
             const selectedOption = select.options[select.selectedIndex];
             const selectedItem = Array.from(dropdown.querySelectorAll('.dropdown-item')).find(item => item.dataset.value === selectedOption.value);
             if (selectedItem) {
-                this.selectItem({ preventDefault: () => {} }, selectedItem, select, button, dropdown);
+                this.selectItem({
+                    preventDefault: () => {
+                    }
+                }, selectedItem, select, button, dropdown);
             } else {
                 this.reset(button, dropdown, select);
             }
