@@ -204,6 +204,8 @@ class AvalynxSelect {
             item.classList.add('active');
             button.textContent = selectedItemText;
             select.value = selectedItemValue;
+            // trigger the original select element's "change" event
+            select.dispatchEvent(new Event('change'));
             const searchInput = dropdown.querySelector('.avalynx-select-input');
             searchInput.value = '';
             button.classList.remove('text-muted');
