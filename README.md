@@ -13,8 +13,9 @@ AvalynxSelect is a lightweight, customizable select dropdown component for web a
 Here's a simple example of how to use AvalynxSelect in your project:
 
 * [Overview](https://avalynx-select.jbs-newmedia.de/examples/index.html)
-* [Select with live search](https://avalynx-select.jbs-newmedia.de/examples/select-live-search.html)
-* [Select with scrollable list](https://avalynx-select.jbs-newmedia.de/examples/select-scrollable-list.html)
+* [Simple select](https://avalynx-select.jbs-newmedia.de/examples/simple-select.html)
+* [Simple select with livesearch and different options](https://avalynx-select.jbs-newmedia.de/examples/simple-select-livesearch.html)
+* [Simple select with responsive design](https://avalynx-select.jbs-newmedia.de/examples/simple-select-responsive.html)
 
 ## Installation
 

@@ -112,7 +112,10 @@ class AvalynxSelect {
             this.options.className.split(' ').forEach(className => button.classList.add(className));
         }
         const dropdown = template.querySelector('ul');
-        dropdown.style.width = `${select.offsetWidth}px`;
+        const updateWidth = () => {
+            dropdown.style.width = `${button.offsetWidth}px`;
+        };
+        window.addEventListener('resize', updateWidth);
         const itemsContainer = dropdown.querySelector('.avalynx-select-items');
         Array.from(select.options).forEach(option => {
             const listItem = document.createElement('li');
@@ -134,6 +137,7 @@ class AvalynxSelect {
             const liveSearchElement = dropdown.querySelector('.avalynx-select-livesearch');
             liveSearchElement.style.display = 'none';
         }
+        updateWidth();
         return {button, dropdown};
     }
 
