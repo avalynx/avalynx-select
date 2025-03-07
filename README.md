@@ -16,6 +16,7 @@ Here's a simple example of how to use AvalynxSelect in your project:
 * [Simple select](https://avalynx-select.jbs-newmedia.de/examples/simple-select.html)
 * [Simple select with livesearch and different options](https://avalynx-select.jbs-newmedia.de/examples/simple-select-livesearch.html)
 * [Simple select with responsive design](https://avalynx-select.jbs-newmedia.de/examples/simple-select-responsive.html)
+* [Simple select with event listeners](https://avalynx-select.jbs-newmedia.de/examples/simple-select-event-listeners.html)
 
 ## Installation
 
@@ -123,6 +124,8 @@ AvalynxSelect allows the following options for customization:
     - `scrollList`: (boolean) Enable scrollable list (default: `true`).
     - `scrollItems`: (number) Number of items to display before scrolling (default: `8`).
     - `noDefaultSelection`: (boolean) Do not select any option by default (default: `false`).
+    - `onChange`: (function) Callback function to be executed when an option is selected (default: `null`).
+    - `onLoaded`: (function) Callback function to be executed when the component is loaded (default: `null`).
 - `language`: An object containing the following keys:
     - `searchPlaceholder`: (string) Placeholder text for the search input (default: `'Search...'`).
     - `selectPlaceholder`: (string) Placeholder text for the select dropdown (default: `'Please select...'`).
@@ -131,6 +134,7 @@ AvalynxSelect allows the following options for customization:
 - Add support for multiple selection
 - Add support for grouped options
 - Add support for styling options
+- Add ajax loading of list items
 
 ## Contributing
 

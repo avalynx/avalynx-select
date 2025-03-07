@@ -19,6 +19,8 @@
  * @param {boolean} options.scrollList - Enable scrollable list (default: true).
  * @param {number} options.scrollItems - Number of items to display before scrolling (default: 8).
  * @param {boolean} options.noDefaultSelection - Do not select any option by default (default: false).
+ * @param {function} options.onChange - Callback function to be executed when an option is selected (default: null).
+ * @param {function} options.onLoaded - Callback function to be executed when the component is loaded (default: null).
  * @param {object} language - An object containing the following keys:
  * @param {string} language.searchPlaceholder - Placeholder text for the search input (default: 'Search...').
  * @param {string} language.selectPlaceholder - Placeholder text for the select dropdown (default: 'Please select...').
@@ -47,6 +49,8 @@ class AvalynxSelect {
             scrollList: true,
             scrollItems: 8,
             noDefaultSelection: false,
+            onChange: options.onChange || null,
+            onLoaded: options.onLoaded || null,
             ...options
         };
         this.language = {
@@ -54,7 +58,12 @@ class AvalynxSelect {
             selectPlaceholder: 'Please select...',
             ...language
         };
+        this.initialized = false;
         this.elements.forEach(select => this.init(select));
+        this.initialized = true;
+        if (this.options.onLoaded) {
+            this.options.onLoaded();
+        }
     }
 
     init(select) {
@@ -214,39 +223,10 @@ class AvalynxSelect {
             this.filterDropdown(dropdown, '');
             const dropdownMenu = new bootstrap.Dropdown(button);
             dropdownMenu.hide();
-        }
-    }
-
-    reset(button, dropdown, select) {
-        button.textContent = this.language.selectPlaceholder;
-        select.value = '';
-        dropdown.querySelectorAll('.dropdown-item.active').forEach(activeItem => {
-            activeItem.classList.remove('active');
-        });
-        const emptyOption = dropdown.querySelector('.dropdown-item[data-value=""]');
-        if (emptyOption) {
-            emptyOption.classList.add('active');
-        }
-        this.filterDropdown(dropdown, '');
-    }
-
-    get value() {
-        return Array.from(this.elements).map(select => select.value);
-    }
-
-    set value(vals) {
-        if (!Array.isArray(vals)) vals = [vals];
-        this.elements.forEach((select, index) => {
-            const val = vals[index] || '';
-            const option = Array.from(select.options).find(opt => opt.value === val);
-            const button = select.nextElementSibling;
-            if (option) {
-                button.textContent = option.textContent;
-                select.value = val;
-            } else {
-                button.textContent = this.language.selectPlaceholder;
-                select.value = '';
+            if (this.initialized && this.options.onChange) {
+                this.options.onChange(select.value);
             }
-        });
+        }
     }
 }
+
