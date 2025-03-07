@@ -43,7 +43,7 @@ Replace `path/to/avalynx-select.js` with the actual path to the file in your pro
 AvalynxSelect is also available via [jsDelivr](https://www.jsdelivr.com/). You can include it in your project like this:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@0.0.1/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@0.0.2/dist/js/avalynx-select.js"></script>
 ```
 
 Make sure to also include Bootstrap's JS/CSS in your project to ensure AvalynxSelect displays correctly.
