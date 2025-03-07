@@ -1,0 +1,10 @@
+{
+  "name": "avalynx/avalynx-select",
+  "files": [
+    "dist/js/avalynx-select.esm.js",
+    "dist/js/avalynx-select.js"
+  ],
+  "files-dev": [
+    "src/js/avalynx-select.js"
+  ]
+}
