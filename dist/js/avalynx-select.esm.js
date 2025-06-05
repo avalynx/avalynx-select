@@ -3,7 +3,7 @@
  *
  * AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.
  *
- * @version 0.0.2
+ * @version 1.0.0
  * @license MIT
  * @author https://github.com/avalynx/avalynx-select/graphs/contributors
  * @website https://github.com/avalynx/
