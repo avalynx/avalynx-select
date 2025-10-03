@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disabled select with default value | AvalynxSelect Example</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Highlight.js 11.9 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/languages/javascript.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/styles/stackoverflow-light.min.css" id="hljsTheme">
+    <script>hljs.highlightAll();</script>
+
+    <!-- AvalynxSelect 1.1.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.1.0/dist/js/avalynx-select.js"></script>
+
+    <!-- Example helper -->
+    <link href="./css/helper.css" rel="stylesheet">
+    <script src="./js/helper.js"></script>
+</head>
+<body>
+
+<div class="container py-5">
+
+    <a class="btn btn-secondary float-end m-3" href=".">Back</a> <button id="modeToggle" class="btn btn-primary float-end m-3">Toggle to Dark Mode</button>
+
+    <br/>
+    <br/>
+    <br/>
+
+
+    <select class="form-select avalynx-select" id="disabled-select" disabled>
+        <option value="">Please select...</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+
+    <br/>
+
+    <select class="form-select avalynx-select" id="disabled-select-default" disabled>
+        <option value="">Please select...</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+    </select>
+
+    <br/>
+
+    <div class="alert alert-info">
+        This example demonstrates a disabled AvalynxSelect with and without a default value. The native select has the <code>disabled</code> attribute,
+        which is mirrored to the custom button to prevent user interaction. Additionally, a default value is set via the
+        <code>defaultValue</code> option, so "Option 2" is pre-selected when the component initializes.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize with disabled state
+            new AvalynxSelect('#disabled-select', { defaultValue: '2' });
+
+            // Initialize with disabled state and default value
+            new AvalynxSelect('#disabled-select-default', { defaultValue: '2' });
+        });
+    </script>
+
+    <br/>
+    <h3>Source of example<a class="p-1 float-end btn btn-secondary btn-small" id="copyButton">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock">document.addEventListener('DOMContentLoaded', () => {
+    new AvalynxSelect('#disabled-select', { defaultValue: '2' });
+});</code></pre>
+
+    <a href="https://github.com/avalynx/avalynx-select" target="_blank" class="btn btn-primary">AvalynxSelect on GitHub</a>
+    <a href="https://github.com/avalynx/" target="_blank" class="btn btn-primary">Avalynx on GitHub</a>
+
+</div>
+</body>
+</html>
