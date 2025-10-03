@@ -17,7 +17,7 @@ Here's a simple example of how to use AvalynxSelect in your project:
 * [Simple select with livesearch and different options](https://avalynx-select.jbs-newmedia.de/examples/simple-select-livesearch.html)
 * [Simple select with responsive design](https://avalynx-select.jbs-newmedia.de/examples/simple-select-responsive.html)
 * [Simple select with event listeners](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
-* [Disabled select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-default-value.html)
+* [Disabled select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Default value select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-default-value.html)
 
 ## Installation
