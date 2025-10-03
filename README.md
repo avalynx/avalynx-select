@@ -43,7 +43,7 @@ Replace `path/to/avalynx-select.js` with the actual path to the file in your pro
 AvalynxSelect is also available via [jsDelivr](https://www.jsdelivr.com/). You can include it in your project like this:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.0.0/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.1.0/dist/js/avalynx-select.js"></script>
 ```
 
 Make sure to also include Bootstrap's JS/CSS in your project to ensure AvalynxSelect displays correctly.
@@ -134,6 +134,8 @@ AvalynxSelect allows the following options for customization:
     - `scrollList`: (boolean) Enable scrollable list (default: `true`).
     - `scrollItems`: (number) Number of items to display before scrolling (default: `8`).
     - `noDefaultSelection`: (boolean) Do not select any option by default (default: `false`).
+    - `disabled`: (boolean) Initialize the select as disabled (default: `false`).
+    - `defaultValue`: (string|null) The default value to select on initialization (default
     - `onChange`: (function) Callback function to be executed when an option is selected (default: `null`).
     - `onLoaded`: (function) Callback function to be executed when the component is loaded (default: `null`).
 - `language`: An object containing the following keys:

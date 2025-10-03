@@ -3,7 +3,7 @@
  *
  * AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.
  *
- * @version 1.0.0
+ * @version 1.1.0
  * @license MIT
  * @author https://github.com/avalynx/avalynx-select/graphs/contributors
  * @website https://github.com/avalynx/
@@ -12,15 +12,15 @@
  *
  * @param {string} selector - The selector to use for targeting tables within the DOM (default: '.avalynx-select').
  * @param {object} options - An object containing the following keys:
- * @param {string} options.className - A custom import * as bootstrap from 'bootstrap';
-
-export class name for the loader element (default: '').
+ * @param {string} options.className - A custom class name for the loader element (default: '').
  * @param {boolean} options.liveSearch - Enable live search functionality (default: false).
  * @param {boolean} options.caseSensitive - Enable case-sensitive search (default: false).
  * @param {boolean} options.showAll - Show all options when search term is empty (default: true).
  * @param {boolean} options.scrollList - Enable scrollable list (default: true).
  * @param {number} options.scrollItems - Number of items to display before scrolling (default: 8).
  * @param {boolean} options.noDefaultSelection - Do not select any option by default (default: false).
+ * @param {boolean} options.disabled - Initialize the select as disabled (default: false).
+ * @param {string|null} options.defaultValue - The default value to select on initialization (default: null).
  * @param {function} options.onChange - Callback function to be executed when an option is selected (default: null).
  * @param {function} options.onLoaded - Callback function to be executed when the component is loaded (default: null).
  * @param {object} language - An object containing the following keys:
@@ -53,6 +53,8 @@ export class AvalynxSelect {
             scrollList: true,
             scrollItems: 8,
             noDefaultSelection: false,
+            disabled: false,
+            defaultValue: null,
             onChange: options.onChange || null,
             onLoaded: options.onLoaded || null,
             ...options
@@ -63,7 +65,11 @@ export class AvalynxSelect {
             ...language
         };
         this.initialized = false;
-        this.elements.forEach(select => this.init(select));
+        this.elements.forEach(select => {
+            if (select && select.options && select.options.length > 0) {
+                this.init(select);
+            }
+        });
         this.initialized = true;
         if (this.options.onLoaded) {
             this.options.onLoaded();
@@ -77,13 +83,30 @@ export class AvalynxSelect {
         const dropdown = dropdownElements.dropdown;
         const searchInput = dropdown.querySelector('.avalynx-select-input');
 
+        const isDisabled = select.disabled || !!this.options.disabled;
+        if (isDisabled) {
+            button.setAttribute('disabled', 'disabled');
+            button.setAttribute('aria-disabled', 'true');
+            button.classList.add('disabled');
+        }
+
         if (this.options.liveSearch) {
             searchInput.addEventListener('keyup', () => this.filterDropdown(dropdown, searchInput.value));
         }
         dropdown.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (event) => this.selectItem(event, item, select, button, dropdown));
+            item.addEventListener('click', (event) => {
+                if (button.hasAttribute('disabled')) {
+                    event.preventDefault();
+                    return;
+                }
+                this.selectItem(event, item, select, button, dropdown)
+            });
         });
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            if (button.hasAttribute('disabled')) {
+                e.preventDefault();
+                return;
+            }
             setTimeout(() => {
                 searchInput.focus();
                 this.applyScrollSettings(dropdown);
@@ -107,12 +130,14 @@ export class AvalynxSelect {
     }
 
     addTemplateIfMissing(id, content) {
-        if (!document.getElementById(id)) {
-            const template = document.createElement('template');
-            template.id = id;
-            template.innerHTML = content;
-            document.body.appendChild(template);
+        const existing = document.getElementById(id);
+        if (existing) {
+            existing.remove();
         }
+        const template = document.createElement('template');
+        template.id = id;
+        template.innerHTML = content;
+        document.body.appendChild(template);
     }
 
     createDropdownElements(select) {
@@ -130,7 +155,9 @@ export class AvalynxSelect {
         };
         window.addEventListener('resize', updateWidth);
         const itemsContainer = dropdown.querySelector('.avalynx-select-items');
-        Array.from(select.options).forEach(option => {
+        const opts = select && select.options ? select.options : [];
+        for (let i = 0; i < (opts.length || 0); i++) {
+            const option = opts[i];
             const listItem = document.createElement('li');
             const anchor = document.createElement('a');
             anchor.classList.add('dropdown-item');
@@ -139,7 +166,7 @@ export class AvalynxSelect {
             anchor.dataset.value = option.value;
             listItem.appendChild(anchor);
             itemsContainer.appendChild(listItem);
-        });
+        }
         select.style.display = 'none';
         select.id = `${select.id}-original`;
         select.parentNode.insertBefore(button, select.nextSibling);
@@ -173,18 +200,26 @@ export class AvalynxSelect {
     setInitialSelection(select, button, dropdown) {
         if (this.options.noDefaultSelection) {
             this.reset(button, dropdown, select);
-        } else {
+            return;
+        }
+        const attrDefault = select.getAttribute('data-default-value');
+        const desired = this.options.defaultValue != null ? String(this.options.defaultValue) : (attrDefault != null ? String(attrDefault) : '');
+        if (desired) {
+            const selectedItem = Array.from(dropdown.querySelectorAll('.dropdown-item')).find(item => item.dataset.value === desired);
+            if (selectedItem) {
+                this.selectItem({ preventDefault: () => {} }, selectedItem, select, button, dropdown);
+                return;
+            }
+        }
+        if (select.selectedIndex >= 0 && select.options[select.selectedIndex] && select.value !== '') {
             const selectedOption = select.options[select.selectedIndex];
             const selectedItem = Array.from(dropdown.querySelectorAll('.dropdown-item')).find(item => item.dataset.value === selectedOption.value);
             if (selectedItem) {
-                this.selectItem({
-                    preventDefault: () => {
-                    }
-                }, selectedItem, select, button, dropdown);
-            } else {
-                this.reset(button, dropdown, select);
+                this.selectItem({ preventDefault: () => {} }, selectedItem, select, button, dropdown);
+                return;
             }
         }
+        this.reset(button, dropdown, select);
     }
 
     filterDropdown(dropdown, searchTerm) {
@@ -192,12 +227,17 @@ export class AvalynxSelect {
         const items = itemsContainer.querySelectorAll('.dropdown-item');
         let visibleCount = 0;
         items.forEach((item) => {
-            const itemText = this.options.caseSensitive ? item.textContent : item.textContent.toLowerCase();
-            const searchTermProcessed = this.options.caseSensitive ? searchTerm : searchTerm.toLowerCase();
-            const isVisible = searchTermProcessed || this.options.showAll
-                ? itemText.includes(searchTermProcessed) || (this.options.showActive && item.classList.contains('active'))
+            const rawItemText = item.textContent || '';
+            const rawSearch = searchTerm || '';
+            const itemText = this.options.caseSensitive ? rawItemText : rawItemText.toLowerCase();
+            const searchTermProcessed = this.options.caseSensitive ? rawSearch : rawSearch.toLowerCase();
+            const itemTextNorm = itemText.replace(/\s+/g, '');
+            const searchNorm = searchTermProcessed.replace(/\s+/g, '');
+            const isVisible = (searchTermProcessed || this.options.showAll)
+                ? (itemTextNorm.includes(searchNorm) || (this.options.showActive && item.classList.contains('active')))
                 : false;
-            item.parentElement.classList.toggle('d-none', !isVisible);
+            if (item.parentElement) item.parentElement.classList.toggle('d-none', !isVisible);
+            item.classList.toggle('d-none', !isVisible);
             if (isVisible) visibleCount++;
         });
         const liveSearchElement = dropdown.querySelector('.avalynx-select-livesearch');
@@ -232,5 +272,65 @@ export class AvalynxSelect {
             }
         }
     }
-}
 
+    reset(button, dropdown, select) {
+        dropdown.querySelectorAll('.dropdown-item.active').forEach(activeItem => {
+            activeItem.classList.remove('active');
+        });
+        const searchInput = dropdown.querySelector('.avalynx-select-input');
+        if (searchInput) searchInput.value = '';
+        button.textContent = this.language.selectPlaceholder;
+        button.classList.add('text-muted');
+        select.value = '';
+        this.filterDropdown(dropdown, '');
+    }
+
+    disable() {
+        this.elements.forEach(original => {
+            const button = document.getElementById(original.id.replace(/-original$/, ''));
+            if (button) {
+                button.setAttribute('disabled', 'disabled');
+                button.setAttribute('aria-disabled', 'true');
+                button.classList.add('disabled');
+            }
+            original.disabled = true;
+        });
+    }
+
+    enable() {
+        this.elements.forEach(original => {
+            const button = document.getElementById(original.id.replace(/-original$/, ''));
+            if (button) {
+                button.removeAttribute('disabled');
+                button.setAttribute('aria-disabled', 'false');
+                button.classList.remove('disabled');
+            }
+            original.disabled = false;
+        });
+    }
+
+    get value() {
+        const first = this.elements && this.elements[0] ? this.elements[0] : null;
+        return [first ? (first.value || '') : ''];
+    }
+
+    set value(values) {
+        if (!Array.isArray(values)) return;
+        this.elements.forEach((original, idx) => {
+            const desired = values[idx] != null ? String(values[idx]) : '';
+            const button = document.getElementById(original.id.replace(/-original$/, ''));
+            const dropdown = button ? button.nextElementSibling : null;
+            if (!button || !dropdown) return;
+            if (desired === '') {
+                this.reset(button, dropdown, original);
+                return;
+            }
+            const item = dropdown.querySelector(`.dropdown-item[data-value="${desired}"]`);
+            if (item) {
+                this.selectItem({ preventDefault: () => {} }, item, original, button, dropdown);
+            } else {
+                this.reset(button, dropdown, original);
+            }
+        });
+    }
+}
