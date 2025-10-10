@@ -45,9 +45,6 @@ class AvalynxSelect {
         if (options === null || typeof options !== 'object') {
             options = {};
         }
-        if (language === null || typeof language !== 'object') {
-            language = {};
-        }
         this.options = {
             className: '',
             liveSearch: false,
@@ -63,6 +60,9 @@ class AvalynxSelect {
             onLoaded: options.onLoaded || null,
             ...options
         };
+        if (language === null || typeof language !== 'object') {
+            language = {};
+        }
         this.language = {
             searchPlaceholder: 'Search...',
             selectPlaceholder: 'Please select...',
