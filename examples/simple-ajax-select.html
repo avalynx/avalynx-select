@@ -197,9 +197,43 @@
         });
     </script>
 
+    <h3>Source of "Basic Ajax Search" example<a class="p-1 float-end btn btn-secondary btn-small copy-button" data-copy-target="codeBlock1">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock1">
+new AvalynxSelect('#ajax-select-basic', {
+    ajax: {
+        url: 'php/result2.get.php',
+        method: 'GET',
+        minimumInputLength: 1,
+        mapRequest: (context) => {
+            return {
+                params: {
+                    search: context.term,
+                    perpage: context.length,
+                    page: (context.start / context.length) + 1
+                }
+            };
+        },
+        mapResponse: (json) => {
+            if (json && json.data) {
+                return json.data.map(item => {
+                    return {
+                        value: item.data.id,
+                        text: item.data.company + ' (' + item.data.price + ')'
+                    };
+                });
+            }
+            return [];
+        }
+    },
+    onChange: (value) => {
+        document.getElementById('result-basic').textContent = 'Selected ID: ' + value;
+    }
+});
+    </code></pre>
+
     <br/>
-    <h3>Source of "Initial Load" example<a class="p-1 float-end btn btn-secondary btn-small" id="copyButton">Copy to clipboard</a></h3>
-    <pre><code class="language-javascript" id="codeBlock">
+    <h3>Source of "Initial Load" example<a class="p-1 float-end btn btn-secondary btn-small copy-button" data-copy-target="codeBlock2">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock2">
 new AvalynxSelect('#ajax-select-initial', {
     ajax: {
         url: 'php/result2.get.php',
@@ -226,6 +260,80 @@ new AvalynxSelect('#ajax-select-initial', {
             }
             return [];
         }
+    },
+    onChange: (value) => {
+        document.getElementById('result-initial').textContent = 'Selected ID: ' + value;
+    }
+});
+    </code></pre>
+
+    <br/>
+    <h3>Source of "Default Value" example<a class="p-1 float-end btn btn-secondary btn-small copy-button" data-copy-target="codeBlock3">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock3">
+new AvalynxSelect('#ajax-select-default', {
+    ajax: {
+        url: 'php/result2.get.php',
+        method: 'GET',
+        minimumInputLength: 1,
+        mapRequest: (context) => {
+            return {
+                params: {
+                    search: context.term,
+                    perpage: context.length,
+                    page: (context.start / context.length) + 1
+                }
+            };
+        },
+        mapResponse: (json) => {
+            if (json && json.data) {
+                return json.data.map(item => {
+                    return {
+                        value: item.data.id,
+                        text: item.data.company + ' (' + item.data.price + ')'
+                    };
+                });
+            }
+            return [];
+        }
+    },
+    onChange: (value) => {
+        document.getElementById('result-default').textContent = 'Selected ID: ' + value;
+    }
+});
+    </code></pre>
+
+    <br/>
+    <h3>Source of "Custom Debounce & Mapping" example<a class="p-1 float-end btn btn-secondary btn-small copy-button" data-copy-target="codeBlock4">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock4">
+new AvalynxSelect('#ajax-select-custom', {
+    ajax: {
+        url: 'php/result2.get.php',
+        method: 'GET',
+        debounce: 1000,
+        minimumInputLength: 2,
+        mapRequest: (context) => {
+            return {
+                params: {
+                    search: context.term,
+                    perpage: context.length,
+                    page: (context.start / context.length) + 1
+                }
+            };
+        },
+        mapResponse: (json) => {
+            if (json && json.data) {
+                return json.data.map(item => {
+                    return {
+                        value: item.data.id,
+                        text: 'COMPANY: ' + item.data.company.toUpperCase()
+                    };
+                });
+            }
+            return [];
+        }
+    },
+    onChange: (value) => {
+        document.getElementById('result-custom').textContent = 'Selected ID: ' + value;
     }
 });
     </code></pre>
