@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax select variants | AvalynxSelect Example</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Highlight.js 11.9 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/languages/javascript.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/styles/stackoverflow-light.min.css" id="hljsTheme">
+    <script>hljs.highlightAll();</script>
+
+    <!-- AvalynxSelect -->
+    <script src="../src/js/avalynx-select.js"></script>
+
+    <!-- Example helper -->
+    <link href="./css/helper.css" rel="stylesheet">
+    <script src="./js/helper.js"></script>
+</head>
+<body>
+
+<div class="container py-5">
+
+    <a class="btn btn-secondary float-end m-3" href=".">Back</a> <button id="modeToggle" class="btn btn-primary float-end m-3">Toggle to Dark Mode</button>
+
+    <h1>Ajax select variants</h1>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="ajax-select-basic" class="form-label">Basic Ajax Search (showActive: true):</label>
+            <select class="form-select avalynx-select" id="ajax-select-basic"></select>
+            <div class="form-text mt-1">
+                Searches as you type (min. 1 char). The selected item stays in the list.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="result-basic" class="alert alert-secondary mt-4">
+                No selection yet.
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="ajax-select-initial" class="form-label">Initial Load on Open:</label>
+            <select class="form-select avalynx-select" id="ajax-select-initial"></select>
+            <div class="form-text mt-1">
+                Loads initial data even with empty search term when opened.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="result-initial" class="alert alert-secondary mt-4">
+                No selection yet.
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="ajax-select-default" class="form-label">Default Value (Pre-selection):</label>
+            <select class="form-select avalynx-select" id="ajax-select-default" data-default-value="3"></select>
+            <div class="form-text mt-1">
+                Automatically fetches and selects the item with ID 3 on initialization.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="result-default" class="alert alert-secondary mt-4">
+                Selected ID: 3
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="ajax-select-custom" class="form-label">Custom Mapping & Debounce (1s):</label>
+            <select class="form-select avalynx-select" id="ajax-select-custom"></select>
+            <div class="form-text mt-1">
+                1000ms debounce and custom response mapping.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="result-custom" class="alert alert-secondary mt-4">
+                No selection yet.
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-5">
+        These examples demonstrate different Ajax configurations for AvalynxSelect.
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Helper for mapping request to the PHP backend format
+            const mapRequest = (context) => {
+                return {
+                    params: {
+                        search: context.term,
+                        perpage: context.length,
+                        page: (context.start / context.length) + 1
+                    }
+                };
+            };
+
+            // Helper for mapping backend response to AvalynxSelect format
+            const mapResponse = (json) => {
+                if (json && json.data) {
+                    return json.data.map(item => {
+                        return {
+                            value: item.data.id,
+                            text: item.data.company + ' (' + item.data.price + ')'
+                        };
+                    });
+                }
+                return [];
+            };
+
+            // 1. Basic
+            new AvalynxSelect('#ajax-select-basic', {
+                ajax: {
+                    url: 'php/result2.get.php',
+                    method: 'GET',
+                    minimumInputLength: 1,
+                    mapRequest: mapRequest,
+                    mapResponse: mapResponse
+                },
+                onChange: (value) => {
+                    document.getElementById('result-basic').textContent = 'Selected ID: ' + value;
+                }
+            });
+
+            // 2. Initial Load
+            new AvalynxSelect('#ajax-select-initial', {
+                ajax: {
+                    url: 'php/result2.get.php',
+                    method: 'GET',
+                    minimumInputLength: 0,
+                    initialLoad: true,
+                    mapRequest: mapRequest,
+                    mapResponse: mapResponse
+                },
+                onChange: (value) => {
+                    document.getElementById('result-initial').textContent = 'Selected ID: ' + value;
+                }
+            });
+
+            // 3. Default Value
+            new AvalynxSelect('#ajax-select-default', {
+                ajax: {
+                    url: 'php/result2.get.php',
+                    method: 'GET',
+                    minimumInputLength: 1,
+                    mapRequest: mapRequest,
+                    mapResponse: mapResponse
+                },
+                onChange: (value) => {
+                    document.getElementById('result-default').textContent = 'Selected ID: ' + value;
+                }
+            });
+
+            // 4. Custom Debounce & Mapping
+            new AvalynxSelect('#ajax-select-custom', {
+                ajax: {
+                    url: 'php/result2.get.php',
+                    method: 'GET',
+                    debounce: 1000,
+                    minimumInputLength: 2,
+                    mapRequest: mapRequest,
+                    mapResponse: (json) => {
+                        if (json && json.data) {
+                            return json.data.map(item => {
+                                return {
+                                    value: item.data.id,
+                                    text: 'COMPANY: ' + item.data.company.toUpperCase()
+                                };
+                            });
+                        }
+                        return [];
+                    }
+                },
+                onChange: (value) => {
+                    document.getElementById('result-custom').textContent = 'Selected ID: ' + value;
+                }
+            });
+        });
+    </script>
+
+    <br/>
+    <h3>Source of "Initial Load" example<a class="p-1 float-end btn btn-secondary btn-small" id="copyButton">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock">
+new AvalynxSelect('#ajax-select-initial', {
+    ajax: {
+        url: 'php/result2.get.php',
+        method: 'GET',
+        minimumInputLength: 0,
+        initialLoad: true,
+        mapRequest: (context) => {
+            return {
+                params: {
+                    search: context.term,
+                    perpage: context.length,
+                    page: (context.start / context.length) + 1
+                }
+            };
+        },
+        mapResponse: (json) => {
+            if (json && json.data) {
+                return json.data.map(item => {
+                    return {
+                        value: item.data.id,
+                        text: item.data.company + ' (' + item.data.price + ')'
+                    };
+                });
+            }
+            return [];
+        }
+    }
+});
+    </code></pre>
+
+    <a href="https://github.com/avalynx/avalynx-select" target="_blank" class="btn btn-primary">AvalynxSelect on GitHub</a> <a href="https://github.com/avalynx/" target="_blank" class="btn btn-primary">Avalynx on GitHub</a>
+
+</div>
+</body>
+</html>

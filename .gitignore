@@ -1,3 +1,6 @@
 /.idea/
+/ai.txt
+/coverage/
+/examples/php/demo.db
+/examples/php/demo2.db
 /node_modules/
-/package-lock.json
