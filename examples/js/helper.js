@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	const copyButtons = document.querySelectorAll('.copyButton');
+	const copyButtons = document.querySelectorAll('.copy-button');
 	if (copyButtons !== null) {
 		copyButtons.forEach(button => {
 			button.addEventListener('click', () => {
-				const codeBlockId = button.getAttribute('data-code-block');
+				const codeBlockId = button.getAttribute('data-copy-target');
 				const codeBlock = document.getElementById(codeBlockId);
 				if (codeBlock !== null) {
 					const code = codeBlock.innerText;
