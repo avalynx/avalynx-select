@@ -169,15 +169,15 @@ class AvalynxSelect {
                 if (this.options.ajax) {
                     const minLen = this.options.ajax.minimumInputLength || 0;
                     const term = searchInput.value || '';
-                    if (term.length < minLen) {
-                        const remaining = Math.max(0, minLen - term.length);
-                        const msg = minLen > 0 ? this._formatTypeMore(remaining) : (this.language.idleHint || '');
+                    if (minLen > 0 && term.length < minLen) {
+                        const remaining = minLen - term.length;
+                        const msg = this._formatTypeMore(remaining);
                         this._setEmpty(dropdown, msg, select, button);
-                        if (minLen === 0 && this.options.ajax.initialLoad) {
-                            this._triggerAjaxLoad(select, dropdown, term, button);
-                        }
                     } else if (this.options.ajax.initialLoad) {
                         this._triggerAjaxLoad(select, dropdown, term, button);
+                    } else if (minLen === 0) {
+                        const msg = this.language.idleHint || '';
+                        this._setEmpty(dropdown, msg, select, button);
                     }
                 } else {
                     this.filterDropdown(dropdown, searchInput.value || '');
@@ -210,9 +210,14 @@ class AvalynxSelect {
         const minLen = this.options.ajax.minimumInputLength || 0;
         const debounced = this._debounce(() => {
             const term = searchInput.value || '';
-            if (term.length < minLen) {
-                const remaining = Math.max(0, minLen - term.length);
-                const msg = minLen > 0 ? this._formatTypeMore(remaining) : (this.language.idleHint || '');
+            if (minLen > 0 && term.length < minLen) {
+                const remaining = minLen - term.length;
+                const msg = this._formatTypeMore(remaining);
+                this._setEmpty(dropdown, msg, select, button);
+                return;
+            }
+            if (minLen === 0 && term.length === 0) {
+                const msg = this.language.idleHint || '';
                 this._setEmpty(dropdown, msg, select, button);
                 return;
             }
@@ -422,9 +427,7 @@ class AvalynxSelect {
         }
         if (this.options.showActive && currentActiveVal) {
             const activeEl = itemsContainer.querySelector(`.dropdown-item[data-value="${currentActiveVal.replace(/"/g, '\"')}"]`);
-            if (activeEl) {
-                activeEl.classList.add('active');
-            }
+            activeEl?.classList.add('active');
         }
         if (toRender.length === 0 && (!this.options.showActive || !currentActiveVal)) {
             this._setEmpty(dropdown, this.language.noResults, select, button);
@@ -534,8 +537,8 @@ class AvalynxSelect {
         };
         window.addEventListener('resize', updateWidth);
         const itemsContainer = dropdown.querySelector('.avalynx-select-items');
-        const opts = select && select.options ? select.options : [];
-        for (let i = 0; i < (opts.length || 0); i++) {
+        const opts = select.options;
+        for (let i = 0; i < opts.length; i++) {
             const option = opts[i];
             const listItem = document.createElement('li');
             const anchor = document.createElement('a');
