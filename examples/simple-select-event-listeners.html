@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9/build/styles/stackoverflow-light.min.css" id="hljsTheme">
     <script>hljs.highlightAll();</script>
 
-    <!-- AvalynxSelect 1.1.1 -->
-    <script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.1.1/dist/js/avalynx-select.js"></script>
+    <!-- AvalynxSelect -->
+    <script src="../src/js/avalynx-select.js"></script>
 
     <!-- Example helper -->
     <link href="./css/helper.css" rel="stylesheet">
@@ -85,8 +85,8 @@
     </script>
 
     <br/>
-    <h3>Source of example<a class="p-1 float-end btn btn-secondary btn-small" id="copyButton">Copy to clipboard</a></h3>
-    <pre><code class="language-javascript" id="codeBlock">
+    <h3>Source of example<a class="p-1 float-end btn btn-secondary btn-small copyButton" data-code-block="code-example">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="code-example">
 document.addEventListener("DOMContentLoaded", function () {
     new AvalynxSelect(".avalynx-select", {
         liveSearch: true,

@@ -15,14 +15,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	const copyButton = document.getElementById('copyButton');
-	if (copyButton !== null) {
-		copyButton.addEventListener('click', () => {
-			const code = document.getElementById('codeBlock').innerText;
-			navigator.clipboard.writeText(code).then(() => {
-				copyButton.textContent = 'Copied!';
-			}).catch(err => {
-				console.error('Error copying text: ', err);
+	const copyButtons = document.querySelectorAll('.copyButton');
+	if (copyButtons !== null) {
+		copyButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				const codeBlockId = button.getAttribute('data-code-block');
+				const codeBlock = document.getElementById(codeBlockId);
+				if (codeBlock !== null) {
+					const code = codeBlock.innerText;
+					navigator.clipboard.writeText(code).then(() => {
+						const originalText = button.textContent;
+						button.textContent = 'Copied!';
+						setTimeout(() => {
+							button.textContent = originalText;
+						}, 2000);
+					}).catch(err => {
+						console.error('Error copying text: ', err);
+					});
+				}
 			});
 		});
 	}
