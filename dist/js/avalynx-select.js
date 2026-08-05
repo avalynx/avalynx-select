@@ -3,16 +3,16 @@
  *
  * AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.
  *
- * @version 1.2.1
+ * @version 1.2.2
  * @license MIT
  * @author https://github.com/avalynx/avalynx-select/graphs/contributors
  * @website https://github.com/avalynx/
  * @repository https://github.com/avalynx/avalynx-select.git
  * @bugs https://github.com/avalynx/avalynx-select/issues
  *
- * @param {string} selector - The selector to use for targeting tables within the DOM (default: '.avalynx-select').
+ * @param {string} selector - The selector to use for targeting selects within the DOM (default: '.avalynx-select').
  * @param {object} options - An object containing the following keys:
- * @param {string} options.className - A custom class name for the loader element (default: '').
+ * @param {string} options.className - A custom class name for the select dropdown (default: '').
  * @param {boolean} options.liveSearch - Enable live search functionality (default: false).
  * @param {boolean} options.caseSensitive - Enable case-sensitive search (default: false).
  * @param {boolean} options.showAll - Show all options when search term is empty (default: true).
@@ -32,11 +32,12 @@
  * @param {number} options.ajax.length - Number of items to fetch (default: 25).
  * @param {number} options.ajax.start - Starting index for fetching items (default: 0).
  * @param {boolean} options.ajax.initialLoad - Load initial data via AJAX (default: false).
- * @param {function|null} options.ajax.mapRequest - Function to map request parameters (default: null).
- * @param {function|null} options.ajax.mapResponse - Function to map response data (default: null).
- * @param {function|null} options.ajax.resolveByValue - Function to resolve a value to a label (default: null).
+ * @param {function} options.ajax.mapRequest - Function to map request parameters (default: null).
+ * @param {function} options.ajax.mapResponse - Function to map response data (default: null).
+ * @param {function} options.ajax.resolveByValue - Function to resolve a value to a label (default: null).
  * @param {function} options.onChange - Callback function to be executed when an option is selected (default: null).
  * @param {function} options.onLoaded - Callback function to be executed when the component is loaded (default: null).
+ *
  * @param {object} language - An object containing the following keys:
  * @param {string} language.searchPlaceholder - Placeholder text for the search input (default: 'Search...').
  * @param {string} language.selectPlaceholder - Placeholder text for the select dropdown (default: 'Please select...').

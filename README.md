@@ -1,12 +1,14 @@
 # AvalynxSelect
 
-[![npm version](https://img.shields.io/npm/v/avalynx-select)](https://www.npmjs.com/package/avalynx-select)
-[![npm downloads](https://img.shields.io/npm/dt/avalynx-select)](https://www.npmjs.com/package/avalynx-select)
-[![jsDelivr](https://img.shields.io/jsdelivr/npm/hm/avalynx-select)](https://www.jsdelivr.com/package/npm/avalynx-select)
-[![License](https://img.shields.io/npm/l/avalynx-select)](LICENSE)
-[![Tests](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/avalynx/avalynx-select/branch/main/graph/badge.svg)](https://codecov.io/gh/avalynx/avalynx-select)
-[![GitHub stars](https://img.shields.io/github/stars/avalynx/avalynx-select?style=flat&logo=github)](https://github.com/avalynx/avalynx-select)
+[![npm version](https://jbs-newmedia.de/badge/npm/avalynx-select/version.svg)](https://www.npmjs.com/package/avalynx-select)
+[![npm downloads](https://jbs-newmedia.de/badge/npm/avalynx-select/download.svg)](https://www.npmjs.com/package/avalynx-select)
+[![Composer version](https://jbs-newmedia.de/badge/composer/avalynx/avalynx-select/version.svg)](https://packagist.org/packages/avalynx/avalynx-select)
+[![Composer downloads](https://jbs-newmedia.de/badge/composer/avalynx/avalynx-select/download.svg)](https://packagist.org/packages/avalynx/avalynx-select)
+[![jsDelivr](https://jbs-newmedia.de/badge/jsdelivr/avalynx-select/hits.svg)](https://www.jsdelivr.com/package/npm/avalynx-select)
+[![License](https://jbs-newmedia.de/badge/npm/avalynx-select/license.svg)](LICENSE)
+[![Tests](https://jbs-newmedia.de/badge/github/avalynx/avalynx-select/tests.svg)](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml)
+[![codecov](https://jbs-newmedia.de/badge/codecov/avalynx/avalynx-select/coverage.svg)](https://codecov.io/gh/avalynx/avalynx-select)
+[![GitHub stars](https://jbs-newmedia.de/badge/github/avalynx/avalynx-select/stars.svg)](https://github.com/avalynx/avalynx-select)
 
 AvalynxSelect is a lightweight, customizable select dropdown component for web applications. It is designed to be used with Bootstrap version 5.3 or higher and does not require any framework dependencies.
 
@@ -17,7 +19,7 @@ AvalynxSelect is a lightweight, customizable select dropdown component for web a
 - **Bootstrap Integration**: Designed for seamless integration with Bootstrap >= 5.3.
 - **Easy to Use**: Simple API for creating and managing select dropdowns within your web applications.
 
-## Example
+## Examples
 
 Here's a simple example of how to use AvalynxSelect in your project:
 
@@ -55,7 +57,7 @@ Replace `path/to/avalynx-select.js` with the actual path to the file in your pro
 AvalynxSelect is also available via [jsDelivr](https://www.jsdelivr.com/). You can include it in your project like this:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.1/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.2/dist/js/avalynx-select.js"></script>
 ```
 
 Make sure to also include Bootstrap's JS/CSS in your project to ensure AvalynxSelect displays correctly.

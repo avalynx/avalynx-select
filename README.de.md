@@ -1,12 +1,12 @@
 # AvalynxSelect
 
-[![npm version](https://img.shields.io/npm/v/avalynx-select)](https://www.npmjs.com/package/avalynx-select)
-[![npm downloads](https://img.shields.io/npm/dt/avalynx-select)](https://www.npmjs.com/package/avalynx-select)
-[![jsDelivr](https://img.shields.io/jsdelivr/npm/hm/avalynx-select)](https://www.jsdelivr.com/package/npm/avalynx-select)
-[![License](https://img.shields.io/npm/l/avalynx-select)](LICENSE)
-[![Tests](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/avalynx/avalynx-select/branch/main/graph/badge.svg)](https://codecov.io/gh/avalynx/avalynx-select)
-[![GitHub stars](https://img.shields.io/github/stars/avalynx/avalynx-select?style=flat&logo=github)](https://github.com/avalynx/avalynx-select)
+[![npm version](https://jbs-newmedia.de/badge/npm/avalynx-select/version.svg)](https://www.npmjs.com/package/avalynx-select)
+[![npm downloads](https://jbs-newmedia.de/badge/npm/avalynx-select/download.svg)](https://www.npmjs.com/package/avalynx-select)
+[![jsDelivr](https://jbs-newmedia.de/badge/jsdelivr/avalynx-select/hits.svg)](https://www.jsdelivr.com/package/npm/avalynx-select)
+[![License](https://jbs-newmedia.de/badge/npm/avalynx-select/license.svg)](LICENSE)
+[![Tests](https://jbs-newmedia.de/badge/github/avalynx/avalynx-select/tests.svg)](https://github.com/avalynx/avalynx-select/actions/workflows/tests.yml)
+[![codecov](https://jbs-newmedia.de/badge/codecov/avalynx/avalynx-select/coverage.svg)](https://codecov.io/gh/avalynx/avalynx-select)
+[![GitHub stars](https://jbs-newmedia.de/badge/github/avalynx/avalynx-select/stars.svg)](https://github.com/avalynx/avalynx-select)
 
 AvalynxSelect ist eine leichtgewichtige, anpassbare Select-Dropdown-Komponente für Webanwendungen. Sie wurde für die Verwendung mit Bootstrap Version 5.3 oder höher entwickelt und benötigt keine Framework-Abhängigkeiten.
 
@@ -55,7 +55,7 @@ Ersetzen Sie `pfad/zu/avalynx-select.js` durch den tatsächlichen Pfad zur Datei
 AvalynxSelect ist auch über [jsDelivr](https://www.jsdelivr.com/) verfügbar. Sie können es wie folgt in Ihr Projekt einbinden:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.1/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.2/dist/js/avalynx-select.js"></script>
 ```
 
 Stellen Sie sicher, dass Sie auch das JS/CSS von Bootstrap in Ihr Projekt einbinden, um eine korrekte Anzeige von AvalynxSelect zu gewährleisten.
@@ -147,7 +147,7 @@ new AvalynxSelect("#myAjaxSelect", {
 
 ## Optionen
 
-AvalynxSelect erlaubt die folgenden Optionen zur Anpassung:
+AvalynxSelect ermöglicht die folgenden Optionen zur Anpassung:
 
 - `selector`: (string) Der Selektor, der zum Anvisieren von Select-Elementen im DOM verwendet wird (Standard: `'.avalynx-select'`).
 - `options`: Ein Objekt, das die folgenden Schlüssel enthält:
@@ -185,9 +185,9 @@ AvalynxSelect erlaubt die folgenden Optionen zur Anpassung:
     - `typeMore`: (string) Text, der für die Mindesteingabeanforderung angezeigt wird (Standard: `'Bitte noch {remaining} weitere Zeichen eingeben...'`).
     - `idleHint`: (string) Hinweistext, wenn das Sucheingabefeld leer ist (Standard: `'Zum Suchen tippen'`).
 
-## Mitwirken
+## Beitragen
 
-Beiträge sind willkommen! Wenn Sie beitragen möchten, forken Sie bitte das Repository und senden Sie einen Pull-Request mit Ihren Änderungen oder Verbesserungen. Wir suchen nach Beiträgen in den folgenden Bereichen:
+Beiträge sind willkommen! Wenn Sie etwas beitragen möchten, forken Sie bitte das Repository und senden Sie einen Pull-Request mit Ihren Änderungen oder Verbesserungen. Wir suchen Beiträge in den folgenden Bereichen:
 
 - Fehlerbehebungen
 - Funktionserweiterungen
@@ -201,6 +201,6 @@ AvalynxSelect ist Open-Source-Software, die unter der [MIT-Lizenz](LICENSE) lize
 
 ## Kontakt
 
-Wenn Sie Fragen, Funktionswünsche oder Probleme haben, öffnen Sie bitte ein Issue in unserem [GitHub-Repository](https://github.com/avalynx/avalynx-select/issues) oder senden Sie einen Pull-Request.
+Wenn Sie Fragen, Funktionswünsche oder Probleme haben, eröffnen Sie bitte ein Issue in unserem [GitHub-Repository](https://github.com/avalynx/avalynx-select/issues) oder reichen Sie einen Pull-Request ein.
 
 Vielen Dank, dass Sie AvalynxSelect für Ihr Projekt in Betracht ziehen!
