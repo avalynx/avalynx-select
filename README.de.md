@@ -29,6 +29,7 @@ Hier ist ein einfaches Beispiel für die Verwendung von AvalynxSelect in Ihrem P
 * [Einfaches Select mit Event-Listenern](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Deaktiviertes Select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Select mit Standardwert](https://avalynx-select.jbs-newmedia.de/examples/simple-select-default-value.html)
+* [Select im Modal](https://avalynx-select.jbs-newmedia.de/examples/simple-select-modal.html)
 
 ## Installation
 

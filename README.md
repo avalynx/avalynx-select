@@ -31,6 +31,7 @@ Here's a simple example of how to use AvalynxSelect in your project:
 * [Simple select with event listeners](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Disabled select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Default value select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-default-value.html)
+* [Select in modal](https://avalynx-select.jbs-newmedia.de/examples/simple-select-modal.html)
 
 ## Installation
 

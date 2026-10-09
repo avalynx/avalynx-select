@@ -537,6 +537,7 @@ class AvalynxSelect {
             dropdown.style.width = `${button.offsetWidth}px`;
         };
         window.addEventListener('resize', updateWidth);
+        button.addEventListener('show.bs.dropdown', updateWidth);
         const itemsContainer = dropdown.querySelector('.avalynx-select-items');
         const opts = select.options;
         for (let i = 0; i < opts.length; i++) {
