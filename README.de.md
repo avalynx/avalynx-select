@@ -29,6 +29,7 @@ Hier ist ein einfaches Beispiel für die Verwendung von AvalynxSelect in Ihrem P
 * [Einfaches Select mit Event-Listenern](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Deaktiviertes Select](https://avalynx-select.jbs-newmedia.de/examples/simple-select-disabled.html)
 * [Select mit Standardwert](https://avalynx-select.jbs-newmedia.de/examples/simple-select-default-value.html)
+* [Select im Modal](https://avalynx-select.jbs-newmedia.de/examples/simple-select-modal.html)
 
 ## Installation
 
@@ -55,7 +56,7 @@ Ersetzen Sie `pfad/zu/avalynx-select.js` durch den tatsächlichen Pfad zur Datei
 AvalynxSelect ist auch über [jsDelivr](https://www.jsdelivr.com/) verfügbar. Sie können es wie folgt in Ihr Projekt einbinden:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.2/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.3/dist/js/avalynx-select.js"></script>
 ```
 
 Stellen Sie sicher, dass Sie auch das JS/CSS von Bootstrap in Ihr Projekt einbinden, um eine korrekte Anzeige von AvalynxSelect zu gewährleisten.

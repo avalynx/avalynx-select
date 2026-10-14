@@ -364,6 +364,39 @@ describe('AvalynxSelect', () => {
         });
     });
 
+    // === Dropdown width ===
+    describe('Dropdown width', () => {
+        test('width is set from button offsetWidth on init', () => {
+            makeSelect(basicHTML);
+            const dropdown = document.querySelector('.dropdown-menu');
+            expect(dropdown.style.width).toBe('0px');
+        });
+
+        test('width is recalculated on show.bs.dropdown (e.g. initialized in hidden modal)', () => {
+            makeSelect(basicHTML);
+            const btn = document.querySelector('button');
+            const dropdown = document.querySelector('.dropdown-menu');
+            // Simulates initialization inside a hidden container (e.g. a closed modal):
+            // offsetWidth was 0 at init time, so the dropdown kept this stale width.
+            expect(dropdown.style.width).toBe('0px');
+            // Container becomes visible and the dropdown is opened: Bootstrap fires
+            // show.bs.dropdown on the toggle button and the width must be updated.
+            Object.defineProperty(btn, 'offsetWidth', { value: 300, configurable: true });
+            btn.dispatchEvent(new Event('show.bs.dropdown', { bubbles: true }));
+            expect(dropdown.style.width).toBe('300px');
+        });
+
+        test('width is recalculated on window resize', () => {
+            makeSelect(basicHTML);
+            const btn = document.querySelector('button');
+            const dropdown = document.querySelector('.dropdown-menu');
+            expect(dropdown.style.width).toBe('0px');
+            Object.defineProperty(btn, 'offsetWidth', { value: 250, configurable: true });
+            window.dispatchEvent(new Event('resize'));
+            expect(dropdown.style.width).toBe('250px');
+        });
+    });
+
     // === Button click ===
     describe('Button click', () => {
         test('button click focuses search and filters (non-ajax)', () => {
