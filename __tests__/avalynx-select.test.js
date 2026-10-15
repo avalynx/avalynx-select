@@ -366,10 +366,59 @@ describe('AvalynxSelect', () => {
 
     // === Dropdown width ===
     describe('Dropdown width', () => {
-        test('width is set from button offsetWidth on init', () => {
+        class MockResizeObserver {
+            constructor(callback) {
+                MockResizeObserver.instances.push(this);
+                this.callback = callback;
+                this.observed = [];
+            }
+            observe(target) {
+                this.observed.push(target);
+            }
+            disconnect() { }
+        }
+
+        beforeEach(() => {
+            MockResizeObserver.instances = [];
+            global.ResizeObserver = MockResizeObserver;
+        });
+
+        afterEach(() => {
+            delete global.ResizeObserver;
+        });
+
+        test('width is not set while button is hidden (e.g. initialized in closed modal)', () => {
             makeSelect(basicHTML);
             const dropdown = document.querySelector('.dropdown-menu');
-            expect(dropdown.style.width).toBe('0px');
+            expect(dropdown.style.width).toBe('');
+        });
+
+        test('button is observed for size changes', () => {
+            makeSelect(basicHTML);
+            const btn = document.querySelector('button');
+            expect(MockResizeObserver.instances.length).toBe(1);
+            expect(MockResizeObserver.instances[0].observed).toContain(btn);
+        });
+
+        test('width follows button size changes (e.g. modal becomes visible)', () => {
+            makeSelect(basicHTML);
+            const btn = document.querySelector('button');
+            const dropdown = document.querySelector('.dropdown-menu');
+            Object.defineProperty(btn, 'offsetWidth', { value: 300, configurable: true });
+            MockResizeObserver.instances[0].callback([], MockResizeObserver.instances[0]);
+            expect(dropdown.style.width).toBe('300px');
+        });
+
+        test('width keeps last known value while button is hidden', () => {
+            makeSelect(basicHTML);
+            const btn = document.querySelector('button');
+            const dropdown = document.querySelector('.dropdown-menu');
+            Object.defineProperty(btn, 'offsetWidth', { value: 300, configurable: true });
+            MockResizeObserver.instances[0].callback([], MockResizeObserver.instances[0]);
+            expect(dropdown.style.width).toBe('300px');
+            Object.defineProperty(btn, 'offsetWidth', { value: 0, configurable: true });
+            MockResizeObserver.instances[0].callback([], MockResizeObserver.instances[0]);
+            expect(dropdown.style.width).toBe('300px');
         });
 
         test('width is recalculated on show.bs.dropdown (e.g. initialized in hidden modal)', () => {
@@ -377,8 +426,8 @@ describe('AvalynxSelect', () => {
             const btn = document.querySelector('button');
             const dropdown = document.querySelector('.dropdown-menu');
             // Simulates initialization inside a hidden container (e.g. a closed modal):
-            // offsetWidth was 0 at init time, so the dropdown kept this stale width.
-            expect(dropdown.style.width).toBe('0px');
+            // no width is stored while the button is hidden.
+            expect(dropdown.style.width).toBe('');
             // Container becomes visible and the dropdown is opened: Bootstrap fires
             // show.bs.dropdown on the toggle button and the width must be updated.
             Object.defineProperty(btn, 'offsetWidth', { value: 300, configurable: true });
@@ -390,7 +439,7 @@ describe('AvalynxSelect', () => {
             makeSelect(basicHTML);
             const btn = document.querySelector('button');
             const dropdown = document.querySelector('.dropdown-menu');
-            expect(dropdown.style.width).toBe('0px');
+            expect(dropdown.style.width).toBe('');
             Object.defineProperty(btn, 'offsetWidth', { value: 250, configurable: true });
             window.dispatchEvent(new Event('resize'));
             expect(dropdown.style.width).toBe('250px');
