@@ -43,8 +43,9 @@
 
     <div class="alert alert-info">
         This example demonstrates AvalynxSelect inside a Bootstrap modal. The selects are initialized on page load,
-        while the modal is still hidden. When the dropdown is opened, its width is recalculated
-        (via the <code>show.bs.dropdown</code> event), so it always matches the width of the select button.
+        while the modal is still hidden. A ResizeObserver keeps the dropdown width in sync with the select button,
+        so the dropdown always matches the width of the select button — even when it is opened while the modal
+        is still fading in.
     </div>
 
     <!-- Modal -->
