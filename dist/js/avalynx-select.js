@@ -26,6 +26,7 @@
  * @param {object|null} options.ajax - Configuration for AJAX data source (default: null).
  * @param {string} options.ajax.url - URL for the AJAX request (default: '').
  * @param {string} options.ajax.method - HTTP method for the AJAX request (default: 'GET').
+ * @param {string} options.ajax.responseType - Expected response format of the AJAX request, either 'json' or 'text'. With 'text' each non-empty line becomes an option, optionally as 'value|Text' (default: 'json').
  * @param {object} options.ajax.headers - Custom headers for the AJAX request (default: {}).
  * @param {number} options.ajax.debounce - Debounce time in milliseconds (default: 250).
  * @param {number} options.ajax.minimumInputLength - Minimum number of characters before AJAX request (default: 0).
@@ -86,6 +87,7 @@ class AvalynxSelect {
             this.options.ajax = {
                 url: '',
                 method: 'GET',
+                responseType: 'json',
                 headers: {},
                 debounce: 250,
                 minimumInputLength: 0,
@@ -205,6 +207,22 @@ class AvalynxSelect {
         return String(tmpl).replace('{remaining}', remaining);
     }
 
+    _parseTextItems(text) {
+        return String(text)
+            .split(/\r?\n/)
+            .map(line => line.trim())
+            .filter(line => line !== '')
+            .map(line => {
+                const sep = line.indexOf('|');
+                if (sep > -1) {
+                    const value = line.slice(0, sep).trim();
+                    const text = line.slice(sep + 1).trim();
+                    return { value: value !== '' ? value : text, text: text };
+                }
+                return { value: line, text: line };
+            });
+    }
+
     _setupAjax(select, dropdown, searchInput, button) {
         const liveSearchElement = dropdown.querySelector('.avalynx-select-livesearch');
         liveSearchElement.style.display = '';
@@ -261,17 +279,19 @@ class AvalynxSelect {
             }
         }
         fetch(url, fetchOpts)
-            .then(res => { if (!res.ok) throw new Error(res.status + ' ' + res.statusText); return res.json(); })
-            .then(json => {
+            .then(res => { if (!res.ok) throw new Error(res.status + ' ' + res.statusText); return ajax.responseType === 'text' ? res.text() : res.json(); })
+            .then(data => {
                 let items = [];
                 try {
                     if (typeof ajax.mapResponse === 'function') {
-                        items = ajax.mapResponse(json) || [];
+                        items = ajax.mapResponse(data) || [];
+                    } else if (ajax.responseType === 'text') {
+                        items = this._parseTextItems(data);
                     } else {
-                        if (Array.isArray(json)) {
-                            items = json;
-                        } else if (json && Array.isArray(json.data)) {
-                            items = json.data;
+                        if (Array.isArray(data)) {
+                            items = data;
+                        } else if (data && Array.isArray(data.data)) {
+                            items = data.data;
                         }
                         items = items.map(it => {
                             if (it == null) return null;
@@ -340,18 +360,20 @@ class AvalynxSelect {
         fetch(url, fetchOpts)
             .then(res => {
                 if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
-                return res.json();
+                return ajax.responseType === 'text' ? res.text() : res.json();
             })
-            .then(json => {
+            .then(data => {
                 let items = [];
                 try {
                     if (typeof ajax.mapResponse === 'function') {
-                        items = ajax.mapResponse(json) || [];
+                        items = ajax.mapResponse(data) || [];
+                    } else if (ajax.responseType === 'text') {
+                        items = this._parseTextItems(data);
                     } else {
-                        if (Array.isArray(json)) {
-                            items = json;
-                        } else if (json && Array.isArray(json.data)) {
-                            items = json.data;
+                        if (Array.isArray(data)) {
+                            items = data;
+                        } else if (data && Array.isArray(data.data)) {
+                            items = data.data;
                         }
                         items = items.map(it => {
                             if (it == null) return null;

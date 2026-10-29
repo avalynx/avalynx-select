@@ -93,6 +93,7 @@ describe('AvalynxSelect', () => {
             const inst = new AvalynxSelect('.avalynx-select', { ajax: { url: '/test' } });
             expect(inst.options.ajax.url).toBe('/test');
             expect(inst.options.ajax.method).toBe('GET');
+            expect(inst.options.ajax.responseType).toBe('json');
         });
 
         test('onLoaded callback fires', () => {
@@ -782,6 +783,100 @@ describe('AvalynxSelect', () => {
             const opts = global.fetch.mock.calls[0][1];
             expect(opts.body).toBeUndefined();
         });
+
+        test('responseType text parses plain text lines into options', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('Apple\nBanana\n\nCherry') });
+            const inst = makeSelect(placeholderHTML, { ajax: { url: '/api', responseType: 'text' } });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._triggerAjaxLoad(select, dropdown, 'x', btn);
+            await new Promise(r => setTimeout(r, 0));
+            const items = Array.from(dropdown.querySelectorAll('.dropdown-item'));
+            expect(items.map(i => i.textContent)).toEqual(['Apple', 'Banana', 'Cherry']);
+            expect(items.map(i => i.dataset.value)).toEqual(['Apple', 'Banana', 'Cherry']);
+        });
+
+        test('responseType text parses value|Text lines', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('1|Apple\n2|Banana') });
+            const inst = makeSelect(placeholderHTML, { ajax: { url: '/api', responseType: 'text' } });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._triggerAjaxLoad(select, dropdown, 'x', btn);
+            await new Promise(r => setTimeout(r, 0));
+            const items = Array.from(dropdown.querySelectorAll('.dropdown-item'));
+            expect(items.map(i => i.dataset.value)).toEqual(['1', '2']);
+            expect(items.map(i => i.textContent)).toEqual(['Apple', 'Banana']);
+        });
+
+        test('responseType text with mapResponse receives raw text', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('1|Apple') });
+            const inst = makeSelect(placeholderHTML, {
+                ajax: {
+                    url: '/api',
+                    responseType: 'text',
+                    mapResponse: (raw) => String(raw).split(/\r?\n/).filter(Boolean).map(l => {
+                        const [value, text] = l.split('|');
+                        return { value, text };
+                    })
+                }
+            });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._triggerAjaxLoad(select, dropdown, 'x', btn);
+            await new Promise(r => setTimeout(r, 0));
+            const items = Array.from(dropdown.querySelectorAll('.dropdown-item'));
+            expect(items.map(i => i.dataset.value)).toEqual(['1']);
+            expect(items.map(i => i.textContent)).toEqual(['Apple']);
+        });
+
+        test('responseType text with throwing mapResponse returns empty', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('Apple') });
+            const inst = makeSelect(placeholderHTML, {
+                ajax: { url: '/api', responseType: 'text', mapResponse: () => { throw new Error('fail'); } }
+            });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._triggerAjaxLoad(select, dropdown, 'x', btn);
+            await new Promise(r => setTimeout(r, 0));
+        });
+    });
+
+    // === _parseTextItems ===
+    describe('_parseTextItems', () => {
+        let inst;
+        beforeEach(() => {
+            inst = makeSelect(basicHTML);
+        });
+
+        test('trims lines and skips empty ones', () => {
+            expect(inst._parseTextItems('  A \n\nB\n')).toEqual([
+                { value: 'A', text: 'A' },
+                { value: 'B', text: 'B' }
+            ]);
+        });
+
+        test('handles CRLF line endings', () => {
+            expect(inst._parseTextItems('A\r\nB')).toEqual([
+                { value: 'A', text: 'A' },
+                { value: 'B', text: 'B' }
+            ]);
+        });
+
+        test('splits on first pipe only', () => {
+            expect(inst._parseTextItems('1|Label|with|pipes')).toEqual([
+                { value: '1', text: 'Label|with|pipes' }
+            ]);
+        });
+
+        test('falls back to text when value part is empty', () => {
+            expect(inst._parseTextItems('|Only label')).toEqual([
+                { value: 'Only label', text: 'Only label' }
+            ]);
+        });
     });
 
     // === _prefetchByValue ===
@@ -921,6 +1016,29 @@ describe('AvalynxSelect', () => {
             await new Promise(r => setTimeout(r, 0));
             const opts = global.fetch.mock.calls[0][1];
             expect(opts.body).toBe(fd);
+        });
+
+        test('prefetch with responseType text selects matching option', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('5|Five\n6|Six') });
+            const inst = makeSelect(basicHTML, { ajax: { url: '/api', responseType: 'text' } });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._prefetchByValue(select, dropdown, btn, '5');
+            await new Promise(r => setTimeout(r, 0));
+            expect(btn.textContent).toBe('Five');
+            expect(select.value).toBe('5');
+        });
+
+        test('prefetch with responseType text no match does nothing', async () => {
+            global.fetch.mockResolvedValue({ ok: true, text: () => Promise.resolve('6|Six') });
+            const inst = makeSelect(basicHTML, { ajax: { url: '/api', responseType: 'text' } });
+            const dropdown = document.querySelector('.dropdown-menu');
+            const btn = document.querySelector('button');
+            const select = document.getElementById('ts-original');
+            inst._prefetchByValue(select, dropdown, btn, '5');
+            await new Promise(r => setTimeout(r, 0));
+            expect(btn.textContent).not.toBe('Five');
         });
 
         test('defaultValue triggers prefetch in init', async () => {
