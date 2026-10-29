@@ -97,6 +97,23 @@
         </div>
     </div>
 
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="ajax-select-plaintext" class="form-label">Plain Text Response (responseType: 'text'):</label>
+            <select class="form-select avalynx-select" id="ajax-select-plaintext"></select>
+            <div class="form-text mt-1">
+                The server returns one option per line as plain text, optionally as 'value|Text'.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="result-plaintext" class="alert alert-secondary mt-4">
+                No selection yet.
+            </div>
+        </div>
+    </div>
+
     <div class="alert alert-info mt-5">
         These examples demonstrate different Ajax configurations for AvalynxSelect.
     </div>
@@ -192,6 +209,19 @@
                 },
                 onChange: (value) => {
                     document.getElementById('result-custom').textContent = 'Selected ID: ' + value;
+                }
+            });
+
+            // 5. Plain Text Response
+            new AvalynxSelect('#ajax-select-plaintext', {
+                ajax: {
+                    url: 'php/result-text.get.php',
+                    method: 'GET',
+                    minimumInputLength: 1,
+                    responseType: 'text'
+                },
+                onChange: (value) => {
+                    document.getElementById('result-plaintext').textContent = 'Selected ID: ' + value;
                 }
             });
         });
@@ -334,6 +364,22 @@ new AvalynxSelect('#ajax-select-custom', {
     },
     onChange: (value) => {
         document.getElementById('result-custom').textContent = 'Selected ID: ' + value;
+    }
+});
+    </code></pre>
+
+    <br/>
+    <h3>Source of "Plain Text Response" example<a class="p-1 float-end btn btn-secondary btn-small copy-button" data-copy-target="codeBlock5">Copy to clipboard</a></h3>
+    <pre><code class="language-javascript" id="codeBlock5">
+new AvalynxSelect('#ajax-select-plaintext', {
+    ajax: {
+        url: 'php/result-text.get.php',
+        method: 'GET',
+        minimumInputLength: 1,
+        responseType: 'text'
+    },
+    onChange: (value) => {
+        document.getElementById('result-plaintext').textContent = 'Selected ID: ' + value;
     }
 });
     </code></pre>
