@@ -56,7 +56,7 @@ Ersetzen Sie `pfad/zu/avalynx-select.js` durch den tatsächlichen Pfad zur Datei
 AvalynxSelect ist auch über [jsDelivr](https://www.jsdelivr.com/) verfügbar. Sie können es wie folgt in Ihr Projekt einbinden:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.4/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.5/dist/js/avalynx-select.js"></script>
 ```
 
 Stellen Sie sicher, dass Sie auch das JS/CSS von Bootstrap in Ihr Projekt einbinden, um eine korrekte Anzeige von AvalynxSelect zu gewährleisten.
@@ -146,6 +146,23 @@ new AvalynxSelect("#myAjaxSelect", {
 });
 ```
 
+Wenn Ihr Server kein JSON zurückgeben kann, können Sie die Optionsliste auch als reinen Text empfangen (`responseType: 'text'`). Jede nicht-leere Zeile wird zu einer Option. Mit `value|Text` definieren Sie einen eigenen Wert, andernfalls wird die Zeile sowohl als Wert als auch als Text verwendet:
+
+```text
+1|Erste Option
+2|Zweite Option
+Einfache Option
+```
+
+```javascript
+new AvalynxSelect("#myAjaxSelect", {
+  ajax: {
+    url: 'https://api.example.com/data',
+    responseType: 'text'
+  }
+});
+```
+
 ## Optionen
 
 AvalynxSelect ermöglicht die folgenden Optionen zur Anpassung:
@@ -166,6 +183,7 @@ AvalynxSelect ermöglicht die folgenden Optionen zur Anpassung:
     - `ajax`: (object|null) Konfiguration für die AJAX-Datenquelle (Standard: `null`).
         - `url`: (string) URL für die AJAX-Anfrage (Standard: `''`).
         - `method`: (string) HTTP-Methode für die AJAX-Anfrage (Standard: `'GET'`).
+        - `responseType`: (string) Erwartetes Antwortformat der AJAX-Anfrage, entweder `'json'` oder `'text'`. Bei `'text'` wird jede nicht-leere Zeile zu einer Option, optional als `value|Text` (Standard: `'json'`).
         - `headers`: (object) Benutzerdefinierte Header für die AJAX-Anfrage (Standard: `{}`).
         - `debounce`: (number) Debounce-Zeit in Millisekunden (Standard: `250`).
         - `minimumInputLength`: (number) Mindestanzahl von Zeichen vor der AJAX-Anfrage (Standard: `0`).

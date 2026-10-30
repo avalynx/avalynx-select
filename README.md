@@ -58,7 +58,7 @@ Replace `path/to/avalynx-select.js` with the actual path to the file in your pro
 AvalynxSelect is also available via [jsDelivr](https://www.jsdelivr.com/). You can include it in your project like this:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.4/dist/js/avalynx-select.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/avalynx-select@1.2.5/dist/js/avalynx-select.js"></script>
 ```
 
 Make sure to also include Bootstrap's JS/CSS in your project to ensure AvalynxSelect displays correctly.
@@ -148,6 +148,23 @@ new AvalynxSelect("#myAjaxSelect", {
 });
 ```
 
+If your server cannot return JSON, you can also receive the option list as plain text (`responseType: 'text'`). Each non-empty line becomes one option. Use `value|Text` to define a custom value, otherwise the line itself is used as both value and text:
+
+```text
+1|First option
+2|Second option
+Plain option
+```
+
+```javascript
+new AvalynxSelect("#myAjaxSelect", {
+  ajax: {
+    url: 'https://api.example.com/data',
+    responseType: 'text'
+  }
+});
+```
+
 ## Options
 
 AvalynxSelect allows the following options for customization:
@@ -168,6 +185,7 @@ AvalynxSelect allows the following options for customization:
     - `ajax`: (object|null) Configuration for AJAX data source (default: `null`).
         - `url`: (string) URL for the AJAX request (default: `''`).
         - `method`: (string) HTTP method for the AJAX request (default: `'GET'`).
+        - `responseType`: (string) Expected response format of the AJAX request, either `'json'` or `'text'`. With `'text'` each non-empty line becomes an option, optionally as `value|Text` (default: `'json'`).
         - `headers`: (object) Custom headers for the AJAX request (default: `{}`).
         - `debounce`: (number) Debounce time in milliseconds (default: `250`).
         - `minimumInputLength`: (number) Minimum number of characters before AJAX request (default: `0`).
